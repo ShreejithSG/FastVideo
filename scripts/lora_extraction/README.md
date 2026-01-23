@@ -12,12 +12,25 @@ python extract_lora.py \
   --rank 32
 ```
 
+**For models with architectural differences** (e.g., FastWan has extra `gate_compress` layers):
+```bash
+python extract_lora.py --direct \
+  --base Wan-AI/Wan2.1-T2V-1.3B-Diffusers \
+  --ft FastVideo/FastWan2.1-T2V-1.3B-Diffusers \
+  --out adapter_r32.safetensors \
+  --rank 32
+```
+
 **Options:**
 - `--base`: Base model (HuggingFace ID or local path)
 - `--ft`: Fine-tuned model (HuggingFace ID or local path)
 - `--out`: Output adapter file
 - `--rank`: LoRA rank (16, 32, 64, 128)
 - `--full-rank`: Extract full-rank adapter (optional)
+- `--direct`: Load weights directly from safetensors, bypassing pipeline (use when models have architectural differences)
+
+> **Note:** The script automatically falls back to direct loading if pipeline loading fails due to architecture mismatches.
+
 
 ## Merge Adapter
 
